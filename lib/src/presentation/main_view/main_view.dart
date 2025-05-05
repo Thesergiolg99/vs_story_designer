@@ -83,6 +83,8 @@ class MainView extends StatefulWidget {
 // share image file path
   final String? mediaPath;
 
+  final Widget bottombarWidget;
+
   MainView(
       {super.key,
       this.themeType,
@@ -99,7 +101,9 @@ class MainView extends StatefulWidget {
       this.editorBackgroundColor,
       this.galleryThumbnailQuality,
       this.centerText,
-      this.mediaPath});
+      this.mediaPath,
+      required this.bottombarWidget
+      });
 
   @override
   _MainViewState createState() => _MainViewState();
@@ -408,52 +412,7 @@ class _MainViewState extends State<MainView> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _buildBottomBarButton(
-                                  icon: Icons.location_on_outlined,
-                                  text: 'Place',
-                                  onPressed: () {
-                                    print('Place button pressed');
-                                  },
-                                ),
-                                _buildBottomBarButton(
-                                  icon: Icons.people_outline,
-                                  text: 'Mention',
-                                  onPressed: () {
-                                    print('Mention button pressed');
-                                  },
-                                ),
-                                FloatingActionButton(
-                                  backgroundColor: Colors.orange,
-                                  onPressed: () async {
-                                    print('Share button pressed');
-                                    String pngUri;
-                                    await takePicture(
-                                            contentKey: contentKey,
-                                            context: context,
-                                            saveToGallery: false,
-                                            fileName:
-                                                controlNotifier.folderName)
-                                        .then((bytes) {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop();
-                                      if (bytes != null) {
-                                        pngUri = bytes;
-                                        widget.onDone!(bytes);
-                                        //AQUI DEBO SUBIR LA IMAGEN
-                                      } else {
-                                        // ignore: avoid_print
-                                        print("error");
-                                      }
-                                    });
-                                  },
-                                  child: const Icon(Icons.send,
-                                      color: Colors.white),
-                                ),
-                              ],
-                            ),
+                            child: widget.bottombarWidget,
                           ),
                         ),
 
