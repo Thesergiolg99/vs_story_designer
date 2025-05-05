@@ -101,8 +101,7 @@ class DraggableWidget extends StatelessWidget {
       width: _size.width, // Use full width
       height: _size.height, // Use full height
       child: FileImageBG(
-        filePath: File(_controlProvider.mediaPath),
-        fit: BoxFit.cover, // Make image cover the entire space
+        filePath: File(_controlProvider.mediaPath), // Make image cover the entire space
         generatedGradient: (color1, color2) {
           _colorProvider.color1 = color1;
           _colorProvider.color2 = color2;
