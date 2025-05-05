@@ -82,6 +82,12 @@ class MainView extends StatefulWidget {
 // share image file path
   final String? mediaPath;
 
+  /// mention list for bottom bar
+  final List<String>? mentionList;
+
+  /// selected place for bottom bar
+  final String? selectedPlace;
+
   MainView(
       {super.key,
       this.themeType,
@@ -98,7 +104,9 @@ class MainView extends StatefulWidget {
       this.editorBackgroundColor,
       this.galleryThumbnailQuality,
       this.centerText,
-      this.mediaPath});
+      this.mediaPath,
+      this.mentionList,
+      this.selectedPlace});
 
   @override
   _MainViewState createState() => _MainViewState();
@@ -400,6 +408,7 @@ class _MainViewState extends State<MainView> {
                         ),
 
                         /// bottom bar
+                        // Replace the existing bottom bar Positioned widget with this:
                         Positioned(
                           bottom: 0,
                           left: 0,
@@ -412,14 +421,19 @@ class _MainViewState extends State<MainView> {
                               children: [
                                 _buildBottomBarButton(
                                   icon: Icons.location_on_outlined,
-                                  text: 'Place',
+                                  text: widget.selectedPlace ?? 'Lugar',
                                   onPressed: () {
                                     print('Place button pressed');
                                   },
                                 ),
                                 _buildBottomBarButton(
                                   icon: Icons.people_outline,
-                                  text: 'Mention',
+                                  text: widget.mentionList == null ||
+                                          widget.mentionList!.isEmpty
+                                      ? 'Mencionar'
+                                      : widget.mentionList!.length == 1
+                                          ? widget.mentionList![0]
+                                          : '+${widget.mentionList!.length}',
                                   onPressed: () {
                                     print('Mention button pressed');
                                   },
