@@ -96,22 +96,23 @@ class DraggableWidget extends StatelessWidget {
 
       /// image [file_image_gb.dart]
       case ItemType.image:
-        if (_controlProvider.mediaPath.isNotEmpty) {
-          overlayWidget = SizedBox(
-            width: _size.width - 72,
-            child: FileImageBG(
-              filePath: File(_controlProvider.mediaPath),
-              generatedGradient: (color1, color2) {
-                _colorProvider.color1 = color1;
-                _colorProvider.color2 = color2;
-              },
-            ),
-          );
-        } else {
-          overlayWidget = Container();
-        }
-
-        break;
+  if (_controlProvider.mediaPath.isNotEmpty) {
+    overlayWidget = SizedBox(
+      width: _size.width, // Use full width
+      height: _size.height, // Use full height
+      child: FileImageBG(
+        filePath: File(_controlProvider.mediaPath),
+        fit: BoxFit.cover, // Make image cover the entire space
+        generatedGradient: (color1, color2) {
+          _colorProvider.color1 = color1;
+          _colorProvider.color2 = color2;
+        },
+      ),
+    );
+  } else {
+    overlayWidget = Container();
+  }
+  break;
 
       case ItemType.gif:
         overlayWidget = SizedBox(
