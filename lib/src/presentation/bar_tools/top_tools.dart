@@ -56,7 +56,7 @@ class _TopToolsState extends State<TopTools> {
                     },
                     child: const Icon(
                       Icons.close,
-                      color: Colors.white,
+                      color: Colors.orange,
                     )),
 
                 Row(
