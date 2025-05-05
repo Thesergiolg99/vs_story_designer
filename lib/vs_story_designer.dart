@@ -154,6 +154,11 @@ class VSStoryDesigner extends StatefulWidget {
 
   // share image file path
   final String? mediaPath;
+    /// mention list for bottom bar
+  final List<String>? mentionList;
+
+  /// selected place for bottom bar
+  final String? selectedPlace;
 
   const VSStoryDesigner(
       {super.key,
@@ -171,7 +176,9 @@ class VSStoryDesigner extends StatefulWidget {
       this.editorBackgroundColor,
       this.galleryThumbnailQuality,
       this.mediaPath,
-      required this.centerText});
+      required this.centerText,
+            this.mentionList,
+      this.selectedPlace});
 
   @override
   _VSStoryDesignerState createState() => _VSStoryDesignerState();
