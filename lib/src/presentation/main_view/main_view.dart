@@ -478,7 +478,7 @@ class _MainViewState extends State<MainView> {
                                     width: 1.2,
                                   )),
                               child: const Text(
-                                'Cancel',
+                                'Cancelar',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
