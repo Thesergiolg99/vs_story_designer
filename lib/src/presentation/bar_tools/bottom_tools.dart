@@ -17,7 +17,7 @@ import 'package:vs_story_designer/src/presentation/widgets/animated_onTap_button
 
 class BottomTools extends StatelessWidget {
   final GlobalKey contentKey;
-  final Function(String imageUri) onDone;
+  final Function(dynamic imageUri) onDone;
   final Widget? onDoneButtonStyle;
   final Function? renderWidget;
 
@@ -189,7 +189,7 @@ class BottomTools extends StatelessWidget {
                           Navigator.of(context, rootNavigator: true).pop();
                           if (bytes != null) {
                             pngUri = bytes;
-                            onDone(pngUri);
+                            onDone(bytes);
                           } else {
                             // ignore: avoid_print
                             print("error");

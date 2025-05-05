@@ -20,6 +20,7 @@ import 'package:vs_story_designer/src/domain/providers/notifiers/painting_notifi
 // import 'package:vs_story_designer/src/domain/providers/notifiers/rendering_notifier.dart';
 import 'package:vs_story_designer/src/domain/providers/notifiers/scroll_notifier.dart';
 import 'package:vs_story_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
+import 'package:vs_story_designer/src/domain/sevices/save_as_image.dart';
 // import 'package:vs_story_designer/src/domain/sevices/save_as_gif_mp4.dart';
 import 'package:vs_story_designer/src/presentation/bar_tools/bottom_tools.dart';
 import 'package:vs_story_designer/src/presentation/bar_tools/top_tools.dart';
@@ -57,7 +58,7 @@ class MainView extends StatefulWidget {
   final Widget? middleBottomWidget;
 
   /// on done
-  final Function(String)? onDone;
+  final Function(dynamic)? onDone;
 
   /// on done button Text
   final Widget? onDoneButtonStyle;
@@ -426,11 +427,27 @@ class _MainViewState extends State<MainView> {
                                 ),
                                 FloatingActionButton(
                                   backgroundColor: Colors.orange,
-                                  onPressed: () {
+                                  onPressed: () async {
                                     print('Share button pressed');
-                                    if (widget.onDone != null) {
-                                      // Handle share/done action
-                                    }
+                                    String pngUri;
+                                    await takePicture(
+                                            contentKey: contentKey,
+                                            context: context,
+                                            saveToGallery: false,
+                                            fileName:
+                                                controlNotifier.folderName)
+                                        .then((bytes) {
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
+                                      if (bytes != null) {
+                                        pngUri = bytes;
+                                        widget.onDone!(bytes);
+                                        //AQUI DEBO SUBIR LA IMAGEN
+                                      } else {
+                                        // ignore: avoid_print
+                                        print("error");
+                                      }
+                                    });
                                   },
                                   child: const Icon(Icons.send,
                                       color: Colors.white),
