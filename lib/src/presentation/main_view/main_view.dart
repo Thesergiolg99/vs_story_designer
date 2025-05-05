@@ -399,26 +399,46 @@ class _MainViewState extends State<MainView> {
                           isDeletePosition: _isDeletePosition,
                         ),
 
-                        /// bottom tools
-                        if (!kIsWeb)
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: BottomTools(
-                              contentKey: contentKey,
-                              // renderWidget: () => startRecording(
-                              //     controlNotifier: controlNotifier,
-                              //     renderingNotifier: renderingNotifier,
-                              //     saveOnGallery: false),
-                              onDone: (bytes) {
-                                setState(() {
-                                  widget.onDone!(bytes);
-                                });
-                              },
-                              onDoneButtonStyle: widget.onDoneButtonStyle,
-                              editorBackgroundColor:
-                                  widget.editorBackgroundColor,
+                        /// bottom bar
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _buildBottomBarButton(
+                                  icon: Icons.location_on_outlined,
+                                  text: 'Place',
+                                  onPressed: () {
+                                    print('Place button pressed');
+                                  },
+                                ),
+                                _buildBottomBarButton(
+                                  icon: Icons.people_outline,
+                                  text: 'Mention',
+                                  onPressed: () {
+                                    print('Mention button pressed');
+                                  },
+                                ),
+                                FloatingActionButton(
+                                  backgroundColor: Colors.orange,
+                                  onPressed: () {
+                                    print('Share button pressed');
+                                    if (widget.onDone != null) {
+                                      // Handle share/done action
+                                    }
+                                  },
+                                  child: const Icon(Icons.send,
+                                      color: Colors.white),
+                                ),
+                              ],
                             ),
                           ),
+                        ),
 
                         /// show text editor
                         Visibility(
@@ -691,5 +711,32 @@ class _MainViewState extends State<MainView> {
 
     /// set vibrate
     HapticFeedback.lightImpact();
+  }
+
+  Widget _buildBottomBarButton({
+    required IconData icon,
+    required String text,
+    required VoidCallback onPressed,
+  }) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.white, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              text,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
