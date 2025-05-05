@@ -411,7 +411,7 @@ class _MainViewState extends State<MainView> {
                           right: 0,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
+                                horizontal: 20, vertical: 0),
                             child: widget.bottombarWidget,
                           ),
                         ),
