@@ -44,7 +44,8 @@ class _TopToolsState extends State<TopTools> {
               children: [
                 /// close button
                 ToolButton(
-                    backGroundColor: Colors.black12,
+                    backGroundColor: const Color(0xBE222222),
+                    borderHide: true,
                     onTap: () async {
                       exitDialog(
                               context: widget.context,
@@ -80,7 +81,8 @@ class _TopToolsState extends State<TopTools> {
                             }),
                       ),
                     ToolButton(
-                      backGroundColor: Colors.black12,
+                                          backGroundColor: const Color(0xBE222222),
+                    borderHide: true,
                       onTap: () => controlNotifier.isTextEditing =
                           !controlNotifier.isTextEditing,
                       child: const ImageIcon(
@@ -92,15 +94,15 @@ class _TopToolsState extends State<TopTools> {
                     ),
                     ToolButton(
                         backGroundColor: controlNotifier.enableTextShadow
-                            ? Colors.white
-                            : Colors.black12,
+                            ? const Color(0xF69644)
+                            : const Color(0xBE222222),
                         onTap: () {
                           controlNotifier.enableTextShadow =
                               !controlNotifier.enableTextShadow;
                         },
                         child: Icon(Icons.text_fields_sharp,
                             color: controlNotifier.enableTextShadow
-                                ? Colors.black
+                                ? Colors.white
                                 : Colors.white,
                             size: 30)),
                     // ToolButton(
@@ -115,7 +117,8 @@ class _TopToolsState extends State<TopTools> {
                     //         context: context,
                     //         giphyKey: controlNotifier.giphyKey)),
                     ToolButton(
-                        backGroundColor: Colors.black12,
+                        backGroundColor: const Color(0xBE222222),
+                    borderHide: true,
                         onTap: () {
                           controlNotifier.isPainting = true;
                           //createLinePainting(context: context);
@@ -142,7 +145,8 @@ class _TopToolsState extends State<TopTools> {
                 // ),
 
                 ToolButton(
-                    backGroundColor: Colors.black12,
+                    backGroundColor: const Color(0xBE222222),
+                    borderHide: true,
                     onTap: () async {
                       if (paintingNotifier.lines.isNotEmpty ||
                           itemNotifier.draggableWidget.isNotEmpty) {

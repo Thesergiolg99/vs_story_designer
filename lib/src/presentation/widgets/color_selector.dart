@@ -33,7 +33,8 @@ class ColorSelector extends StatelessWidget {
                     color: controlProvider.isPainting
                         ? controlProvider.colorList![paintingProvider.lineColor]
                         : controlProvider.colorList![editorProvider.textColor],
-                    shape: BoxShape.circle,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.white, width: 1.5)),
                 child: ImageIcon(
                   const AssetImage('assets/icons/pickColor.png',
@@ -71,7 +72,8 @@ class ColorSelector extends StatelessWidget {
                         margin: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                             color: controlProvider.colorList![index],
-                            shape: BoxShape.circle,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(12),
                             border:
                                 Border.all(color: Colors.white, width: 1.5)),
                       ),

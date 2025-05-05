@@ -21,7 +21,7 @@ class TopTextTools extends StatelessWidget {
                 children: [
                   /// font family / font color
                   ToolButton(
-                    borderHide: !editorNotifier.isFontFamily ? false : true,
+                    borderHide: true, //!editorNotifier.isFontFamily ? false : true,
                     onTap: () {
                       editorNotifier.isFontFamily =
                           !editorNotifier.isFontFamily;
@@ -52,6 +52,8 @@ class TopTextTools extends StatelessWidget {
 
                   /// text align
                   ToolButton(
+                    borderHide: true,
+                    backGroundColor: const Color(0xBE222222),
                     onTap: editorNotifier.onAlignmentChange,
                     child: Transform.scale(
                         scale: 0.8,
@@ -67,11 +69,12 @@ class TopTextTools extends StatelessWidget {
 
                   /// background color
                   ToolButton(
+                    borderHide: true,
                     onTap: editorNotifier.onBackGroundChange,
                     backGroundColor:
                         editorNotifier.backGroundColor != Colors.transparent
-                            ? Colors.white.withOpacity(0.9)
-                            : Colors.black12,
+                            ? const Color(0xF69844)
+                            : const Color(0xBE222222),
                     child: Transform.scale(
                         scale: 0.7,
                         child: Center(
@@ -143,14 +146,15 @@ class TopTextTools extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 6, horizontal: 12),
                       decoration: BoxDecoration(
-                          color: Colors.black12,
-                          border: Border.all(color: Colors.white, width: 1.5),
-                          borderRadius: BorderRadius.circular(15)),
+                          color: const Color.fromARGB(255, 246, 152, 68),
+                          
+                          //border: Border.all(color: Colors.white, width: 1.5),
+                          borderRadius: BorderRadius.circular(25)),
                       child: const Text(
                         'Listo',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

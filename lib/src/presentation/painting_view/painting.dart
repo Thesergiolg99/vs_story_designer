@@ -171,7 +171,7 @@ class _PaintingState extends State<Painting> {
 
                 /// select line width
                 const Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.centerRight,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 140),
                     child: SizeSliderWidget(),

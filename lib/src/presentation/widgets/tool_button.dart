@@ -29,7 +29,7 @@ class ToolButton extends StatelessWidget {
         child: Padding(
           padding: padding ?? const EdgeInsets.symmetric(horizontal: 10),
           child: Material(
-            color: Colors.transparent,
+            color: const Color(0xBE222222),
             borderRadius: BorderRadius.circular(90),
             // elevation: 1,
             shadowColor: Colors.black.withOpacity(0.5),
@@ -41,7 +41,7 @@ class ToolButton extends StatelessWidget {
                   : BoxDecoration(
                       color: backGroundColor ?? Colors.transparent,
                       // shape: BoxShape.circle,
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: Colors.white, width: 0.5)),
               child: Transform.scale(
                 scale: 0.8,

@@ -34,7 +34,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
           },
           child: AnimatedOpacity(
             opacity: isDrawing ? 0.0 : 1.0,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 100),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               child: Container(
@@ -46,10 +46,11 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                     /// remove last line
                     if (paintingNotifier.lines.isNotEmpty)
                       ToolButton(
+                        borderHide: true,
                         onTap: paintingNotifier.removeLast,
                         onLongPress: paintingNotifier.clearAll,
                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                        backGroundColor: Colors.black12,
+                        backGroundColor: const Color(0xBE222222),
                         child: Transform.scale(
                             scale: 0.6,
                             child: const ImageIcon(
@@ -63,18 +64,19 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                     Row(
                       children: [
                         ToolButton(
+                          borderHide: true,
                           onTap: () {
                             paintingNotifier.paintingType = PaintingType.pen;
                           },
                           colorBorder:
                               paintingNotifier.paintingType == PaintingType.pen
-                                  ? Colors.black
+                                  ? Colors.white
                                   : Colors.white,
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           backGroundColor:
                               paintingNotifier.paintingType == PaintingType.pen
-                                  ? Colors.white.withOpacity(0.9)
-                                  : Colors.black12,
+                                   ? const Color.fromARGB(255, 246, 152, 68)
+                                  : const Color(0xBE222222),
                           child: Transform.scale(
                               scale: 1.2,
                               child: ImageIcon(
@@ -82,7 +84,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                                     package: 'vs_story_designer'),
                                 color: paintingNotifier.paintingType ==
                                         PaintingType.pen
-                                    ? Colors.black
+                                    ? Colors.white
                                     : Colors.white,
                               )),
                         ),
@@ -91,18 +93,19 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                         //   width: 12,
                         // ),
                         ToolButton(
+                          borderHide: true,
                           onTap: () {
                             paintingNotifier.paintingType = PaintingType.marker;
                           },
                           colorBorder:
                               paintingNotifier.paintingType == PaintingType.marker
-                                  ? Colors.black
+                                  ? Colors.white
                                   : Colors.white,
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           backGroundColor:
                               paintingNotifier.paintingType == PaintingType.marker
-                                  ? Colors.white.withOpacity(0.9)
-                                  : Colors.black12,
+                                  ? const Color.fromARGB(255, 246, 152, 68)
+                                  : const Color(0xBE222222),
                           child: Transform.scale(
                               scale: 1.2,
                               child: ImageIcon(
@@ -110,7 +113,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                                     package: 'vs_story_designer'),
                                 color: paintingNotifier.paintingType ==
                                         PaintingType.marker
-                                    ? Colors.black
+                                    ? Colors.white
                                     : Colors.white,
                               )),
                         ),
@@ -120,6 +123,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
 
                         /// select marker
                         ToolButton(
+                          borderHide: true,
                           onTap: () {
                             paintingNotifier.paintingType = PaintingType.neon;
                           },
@@ -130,8 +134,8 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           backGroundColor:
                               paintingNotifier.paintingType == PaintingType.neon
-                                  ? Colors.white.withOpacity(0.9)
-                                  : Colors.black12,
+                                  ? const Color.fromARGB(255, 246, 152, 68)
+                                  : const Color(0xBE222222),
                           child: Transform.scale(
                               scale: 1.2,
                               child: ImageIcon(
@@ -139,7 +143,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                                     package: 'vs_story_designer'),
                                 color: paintingNotifier.paintingType ==
                                         PaintingType.neon
-                                    ? Colors.black
+                                    ? Colors.white
                                     : Colors.white,
                               )),
                         ),
@@ -190,14 +194,14 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 6, horizontal: 12),
                           decoration: BoxDecoration(
-                              color: Colors.black12,
-                              border: Border.all(color: Colors.white, width: 1.5),
-                              borderRadius: BorderRadius.circular(15)),
+                              color: const Color.fromARGB(255, 246, 152, 68),
+                              //border: Border.all(color: Colors.white, width: 1.5),
+                              borderRadius: BorderRadius.circular(25)),
                           child: const Text(
                             'Listo',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 15,
+                              fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
                           ),

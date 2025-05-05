@@ -43,10 +43,11 @@ class FontSelector extends StatelessWidget {
                   margin: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
                       color: index == editorNotifier.fontFamilyIndex
-                          ? Colors.white
-                          : Colors.black.withOpacity(0.4),
+                          ? const Color(0x00f69844)
+                          : const Color(0xBE222222),
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white)),
+                      //border: Border.all(color: Colors.white)
+                      ),
                   child: Center(
                     child: Text(
                       'Aa',
@@ -61,7 +62,7 @@ class FontSelector extends StatelessWidget {
                               ))
                           .copyWith(
                               color: index == editorNotifier.fontFamilyIndex
-                                  ? Colors.red
+                                  ? Colors.white
                                   : Colors.white,
                               fontWeight: FontWeight.bold),
                     ),
