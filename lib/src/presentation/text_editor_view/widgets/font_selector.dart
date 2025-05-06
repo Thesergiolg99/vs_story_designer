@@ -43,9 +43,10 @@ class FontSelector extends StatelessWidget {
                   margin: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
                       color: index == editorNotifier.fontFamilyIndex
-                          ? const Color(0x00f69844)
+                          ? const Color.fromARGB(255, 246, 152, 68)
                           : const Color(0xBE222222),
-                      shape: BoxShape.circle,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(8)
                       //border: Border.all(color: Colors.white)
                       ),
                   child: Center(

@@ -102,8 +102,7 @@ class MainView extends StatefulWidget {
       this.galleryThumbnailQuality,
       this.centerText,
       this.mediaPath,
-      required this.bottombarWidget
-      });
+      required this.bottombarWidget});
 
   @override
   _MainViewState createState() => _MainViewState();
@@ -410,8 +409,7 @@ class _MainViewState extends State<MainView> {
                           left: 0,
                           right: 0,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 0),
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
                             child: Center(child: widget.bottombarWidget),
                           ),
                         ),

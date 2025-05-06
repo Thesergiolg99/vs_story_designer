@@ -58,6 +58,7 @@ class _TopToolsState extends State<TopTools> {
                     child: const Icon(
                       Icons.close,
                       color: Colors.white,
+                      size: 18,
                     )),
 
                 Row(
@@ -81,20 +82,21 @@ class _TopToolsState extends State<TopTools> {
                             }),
                       ),
                     ToolButton(
-                                          backGroundColor: const Color(0xBE222222),
-                    borderHide: true,
+                      backGroundColor: const Color(0xBE222222),
+                      borderHide: true,
                       onTap: () => controlNotifier.isTextEditing =
                           !controlNotifier.isTextEditing,
                       child: const ImageIcon(
                         AssetImage('assets/icons/text.png',
                             package: 'vs_story_designer'),
                         color: Colors.white,
-                        size: 20,
+                        size: 18,
                       ),
                     ),
                     ToolButton(
+                        borderHide: true,
                         backGroundColor: controlNotifier.enableTextShadow
-                            ? const Color(0xF69644)
+                            ? const Color.fromARGB(255, 246, 152, 68)
                             : const Color(0xBE222222),
                         onTap: () {
                           controlNotifier.enableTextShadow =
@@ -104,7 +106,7 @@ class _TopToolsState extends State<TopTools> {
                             color: controlNotifier.enableTextShadow
                                 ? Colors.white
                                 : Colors.white,
-                            size: 30)),
+                            size: 24)),
                     // ToolButton(
                     //     child: const ImageIcon(
                     //       AssetImage('assets/icons/stickers.png',
@@ -118,7 +120,7 @@ class _TopToolsState extends State<TopTools> {
                     //         giphyKey: controlNotifier.giphyKey)),
                     ToolButton(
                         backGroundColor: const Color(0xBE222222),
-                    borderHide: true,
+                        borderHide: true,
                         onTap: () {
                           controlNotifier.isPainting = true;
                           //createLinePainting(context: context);
@@ -127,7 +129,7 @@ class _TopToolsState extends State<TopTools> {
                           AssetImage('assets/icons/draw.png',
                               package: 'vs_story_designer'),
                           color: Colors.white,
-                          size: 20,
+                          size: 18,
                         )),
                   ],
                 ),
@@ -202,7 +204,7 @@ class _TopToolsState extends State<TopTools> {
                       AssetImage('assets/icons/download.png',
                           package: 'vs_story_designer'),
                       color: Colors.white,
-                      size: 20,
+                      size: 16,
                     )),
               ],
             ),

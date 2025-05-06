@@ -65,17 +65,18 @@ class ColorSelector extends StatelessWidget {
                           editorProvider.textColor = index;
                         }
                       },
-                      child: Container(
-                        height: _size.width * 0.08,
-                        width: _size.width * 0.08,
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
                             color: controlProvider.colorList![index],
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(12),
-                            border:
-                                Border.all(color: Colors.white, width: 1.5)),
+                            border: Border.all(color: Colors.white, width: 1.5),
+                          ),
+                        ),
                       ),
                     );
                   },

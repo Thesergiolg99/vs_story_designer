@@ -21,7 +21,8 @@ class TopTextTools extends StatelessWidget {
                 children: [
                   /// font family / font color
                   ToolButton(
-                    borderHide: true, //!editorNotifier.isFontFamily ? false : true,
+                    borderHide:
+                        true, //!editorNotifier.isFontFamily ? false : true,
                     onTap: () {
                       editorNotifier.isFontFamily =
                           !editorNotifier.isFontFamily;
@@ -72,9 +73,11 @@ class TopTextTools extends StatelessWidget {
                     borderHide: true,
                     onTap: editorNotifier.onBackGroundChange,
                     backGroundColor:
-                        editorNotifier.backGroundColor != Colors.transparent
-                            ? const Color(0xF69844)
-                            : const Color(0xBE222222),
+                        editorNotifier.backGroundColor == Colors.black
+                            ? Colors.black
+                            : editorNotifier.backGroundColor == Colors.white
+                                ? Colors.white
+                                : const Color(0xBE222222),
                     child: Transform.scale(
                         scale: 0.7,
                         child: Center(
@@ -83,10 +86,12 @@ class TopTextTools extends StatelessWidget {
                           child: ImageIcon(
                             const AssetImage('assets/icons/font_backGround.png',
                                 package: 'vs_story_designer'),
-                            color: editorNotifier.backGroundColor !=
-                                    Colors.transparent
-                                ? Colors.black
-                                : Colors.white,
+                            color: editorNotifier.backGroundColor ==
+                                    Colors.black
+                                ? Colors.white
+                                : editorNotifier.backGroundColor == Colors.white
+                                    ? Colors.black
+                                    : Colors.white,
                           ),
                         ))),
                     //////////////////////////
@@ -141,20 +146,20 @@ class TopTextTools extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.topRight,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 10, top: 10),
+                    padding: const EdgeInsets.only(right: 20, top: 10),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 6, horizontal: 12),
                       decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 246, 152, 68),
-                          
+
                           //border: Border.all(color: Colors.white, width: 1.5),
                           borderRadius: BorderRadius.circular(25)),
                       child: const Text(
                         'Listo',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
