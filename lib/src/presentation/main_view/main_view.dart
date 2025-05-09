@@ -408,15 +408,14 @@ class _MainViewState extends State<MainView> {
 
                         /// bottom bar
                         if (!kIsWeb)
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Positioned(
+
+                            Positioned(
                               bottom: 0,
                               left: 0,
                               right: 0,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                                    const EdgeInsets.fromLTRB(20, 0, 20, 20),
                                 child: BottomTools(
                                   contentKey: contentKey,
                                   // renderWidget: () => startRecording(
@@ -437,7 +436,7 @@ class _MainViewState extends State<MainView> {
                                 ),
                               ),
                             ),
-                          ),
+                          
 
                         /// show text editor
                         Visibility(

@@ -44,10 +44,7 @@ class BottomTools extends StatelessWidget {
         PaintingNotifier>(
       builder: (_, controlNotifier, scrollNotifier, itemNotifier,
           paintingNotifier, __) {
-        return Container(
-            height: 95,
-            decoration: const BoxDecoration(color: Colors.transparent),
-            child: Row(
+        return Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +131,7 @@ class BottomTools extends StatelessWidget {
                       ),
                 ),
               ],
-            ));
+            );
       },
     );
   }
