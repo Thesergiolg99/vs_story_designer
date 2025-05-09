@@ -20,16 +20,21 @@ class BottomTools extends StatelessWidget {
   final Function(dynamic imageUri) onDone;
   final Widget? onDoneButtonStyle;
   final Function? renderWidget;
+  final Widget placeButtonWidget;
+  final Widget mentionButtonWidget;
 
   /// editor background color
   final Color? editorBackgroundColor;
-  const BottomTools(
-      {super.key,
-      required this.contentKey,
-      required this.onDone,
-      this.renderWidget,
-      this.onDoneButtonStyle,
-      this.editorBackgroundColor});
+  const BottomTools({
+    super.key,
+    required this.contentKey,
+    required this.onDone,
+    this.renderWidget,
+    this.onDoneButtonStyle,
+    this.editorBackgroundColor,
+    required this.placeButtonWidget,
+    required this.mentionButtonWidget,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,55 +52,7 @@ class BottomTools extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               /// preview gallery
-              Container(
-                // width: _size.width / 3,
-                // height: _size.width / 3,
-                padding: const EdgeInsets.only(left: 15),
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  child: _preViewContainer(
-                    /// if [model.imagePath] is null/empty return preview image
-                    child: controlNotifier.mediaPath.isEmpty
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: GestureDetector(
-                              onTap: () {
-                                /// scroll to gridView page
-                                if (controlNotifier.mediaPath.isEmpty) {
-                                  scrollNotifier.pageController.animateToPage(1,
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      curve: Curves.ease);
-                                }
-                              },
-                              child: const CoverThumbnail(
-                                thumbnailQuality: 150,
-                              ),
-                            ))
-
-                        /// return clear [imagePath] provider
-                        : GestureDetector(
-                            onTap: () {
-                              /// clear image url variable
-                              controlNotifier.mediaPath = '';
-                              itemNotifier.draggableWidget.removeAt(0);
-                            },
-                            child: Container(
-                              height: 45,
-                              width: 45,
-                              color: Colors.transparent,
-                              child: Transform.scale(
-                                scale: 0.7,
-                                child: const Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                  ),
-                ),
-              ),
+              placeButtonWidget,
               // if (controlNotifier.mediaPath.isEmpty)
               //   _selectColor(
               //       controlProvider: controlNotifier,
@@ -113,35 +70,7 @@ class BottomTools extends StatelessWidget {
               //       }),
 
               /// center logo
-              controlNotifier.middleBottomWidget != null
-                  ? Center(
-                      child: Container(
-                          width: _size.width / 3,
-                          height: 80,
-                          alignment: Alignment.bottomCenter,
-                          child: controlNotifier.middleBottomWidget),
-                    )
-                  : Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/images/instagram_logo.png',
-                            package: 'vs_story_designer',
-                            color: Colors.white,
-                            height: 42,
-                          ),
-                          const Text(
-                            'Story Designer',
-                            style: TextStyle(
-                                color: Colors.white38,
-                                letterSpacing: 1.5,
-                                fontSize: 9.2,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
+              mentionButtonWidget,
 
               /// save final image to gallery
 

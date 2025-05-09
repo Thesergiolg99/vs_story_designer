@@ -156,7 +156,8 @@ class VSStoryDesigner extends StatefulWidget {
   // share image file path
   final String? mediaPath;
   
-  final Widget bottombarWidget;
+  final Widget placeButtonWidget;
+  final Widget mentionButtonWidget;
 
   const VSStoryDesigner(
       {super.key,
@@ -175,7 +176,8 @@ class VSStoryDesigner extends StatefulWidget {
       this.galleryThumbnailQuality,
       this.mediaPath,
       required this.centerText,
-      required this.bottombarWidget
+      required this.placeButtonWidget,
+      required this.mentionButtonWidget,
       });
 
   @override
@@ -230,7 +232,9 @@ class _VSStoryDesignerState extends State<VSStoryDesigner> {
         galleryThumbnailQuality: widget.galleryThumbnailQuality,
         centerText: widget.centerText,
         mediaPath: widget.mediaPath,
-        bottombarWidget: widget.bottombarWidget,
+        placeButtonWidget: widget.placeButtonWidget,
+        mentionButtonWidget: widget.mentionButtonWidget,
+        
       ),
     );
   }

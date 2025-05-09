@@ -83,26 +83,29 @@ class MainView extends StatefulWidget {
 // share image file path
   final String? mediaPath;
 
-  final Widget bottombarWidget;
+  final Widget placeButtonWidget;
+  final Widget mentionButtonWidget;
 
-  MainView(
-      {super.key,
-      this.themeType,
-      required this.giphyKey,
-      required this.onDone,
-      this.middleBottomWidget,
-      this.colorList,
-      this.fileName,
-      this.isCustomFontList,
-      this.fontFamilyList,
-      this.gradientColors,
-      this.onBackPress,
-      this.onDoneButtonStyle,
-      this.editorBackgroundColor,
-      this.galleryThumbnailQuality,
-      this.centerText,
-      this.mediaPath,
-      required this.bottombarWidget});
+  MainView({
+    super.key,
+    this.themeType,
+    required this.giphyKey,
+    required this.onDone,
+    this.middleBottomWidget,
+    this.colorList,
+    this.fileName,
+    this.isCustomFontList,
+    this.fontFamilyList,
+    this.gradientColors,
+    this.onBackPress,
+    this.onDoneButtonStyle,
+    this.editorBackgroundColor,
+    this.galleryThumbnailQuality,
+    this.centerText,
+    this.mediaPath,
+    required this.placeButtonWidget,
+    required this.mentionButtonWidget,
+  });
 
   @override
   _MainViewState createState() => _MainViewState();
@@ -404,15 +407,25 @@ class _MainViewState extends State<MainView> {
                         ),
 
                         /// bottom bar
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
-                            child: Center(child: widget.bottombarWidget),
+                        if (!kIsWeb)
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: BottomTools(
+                              contentKey: contentKey,
+                              // renderWidget: () => startRecording(
+                              //     controlNotifier: controlNotifier,
+                              //     renderingNotifier: renderingNotifier,
+                              //     saveOnGallery: false),
+                              onDone: (bytes) {
+                                setState(() {
+                                  widget.onDone!(bytes);
+                                });
+                              },
+                              onDoneButtonStyle: widget.onDoneButtonStyle,
+                              editorBackgroundColor:
+                                  widget.editorBackgroundColor, placeButtonWidget: widget.placeButtonWidget, mentionButtonWidget: widget.mentionButtonWidget,
+                            ),
                           ),
-                        ),
 
                         /// show text editor
                         Visibility(
