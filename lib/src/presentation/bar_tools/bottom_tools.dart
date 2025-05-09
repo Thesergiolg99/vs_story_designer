@@ -45,63 +45,48 @@ class BottomTools extends StatelessWidget {
       builder: (_, controlNotifier, scrollNotifier, itemNotifier,
           paintingNotifier, __) {
         return Container(
-          height: 95,
-          decoration: const BoxDecoration(color: Colors.transparent),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              /// preview gallery
-              placeButtonWidget,
-              // if (controlNotifier.mediaPath.isEmpty)
-              //   _selectColor(
-              //       controlProvider: controlNotifier,
-              //       onTap: () {
-              //         if (controlNotifier.gradientIndex >=
-              //             controlNotifier.gradientColors!.length - 1) {
-              //           setState() {
-              //             controlNotifier.gradientIndex = 0;
-              //           }
-              //         } else {
-              //           setState() {
-              //             controlNotifier.gradientIndex += 1;
-              //           }
-              //         }
-              //       }),
-
-              /// center logo
-              mentionButtonWidget,
-
-              /// save final image to gallery
-
-              AnimatedOnTapButton(
+            height: 95,
+            decoration: const BoxDecoration(color: Colors.transparent),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// preview gallery
+                placeButtonWidget,
+                const SizedBox(width: 10), // Spacing
+                /// center logo
+                mentionButtonWidget,
+                const SizedBox(width: 10), // Spacing
+                /// save final image to gallery
+                AnimatedOnTapButton(
                   onTap: () async {
                     String pngUri;
                     if (paintingNotifier.lines.isNotEmpty ||
                         itemNotifier.draggableWidget.isNotEmpty) {
                       showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Card(
-                                    color: Colors.white,
-                                    child: Container(
-                                        padding: const EdgeInsets.all(50),
-                                        child:
-                                            const CircularProgressIndicator())),
-                              ],
-                            );
-                          });
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Card(
+                                color: Colors.white,
+                                child: Container(
+                                  padding: const EdgeInsets.all(50),
+                                  child: const CircularProgressIndicator(),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
 
                       for (var element in itemNotifier.draggableWidget) {
                         if (element.type == ItemType.gif ||
                             element.animationType != TextAnimationType.none) {
-                          // setState(() {
                           _createVideo = true;
-                          // });
                         }
                       }
                       if (_createVideo) {
@@ -110,17 +95,16 @@ class BottomTools extends StatelessWidget {
                       } else {
                         debugPrint('creating image');
                         await takePicture(
-                                contentKey: contentKey,
-                                context: context,
-                                saveToGallery: false,
-                                fileName: controlNotifier.folderName)
-                            .then((bytes) {
+                          contentKey: contentKey,
+                          context: context,
+                          saveToGallery: false,
+                          fileName: controlNotifier.folderName,
+                        ).then((bytes) {
                           Navigator.of(context, rootNavigator: true).pop();
                           if (bytes != null) {
                             pngUri = bytes;
                             onDone(bytes);
                           } else {
-                            // ignore: avoid_print
                             print("error");
                           }
                         });
@@ -128,46 +112,29 @@ class BottomTools extends StatelessWidget {
                     } else {
                       showToast('Design something to save image');
                     }
-                    // setState(() {
                     _createVideo = false;
-                    // });
                   },
                   child: onDoneButtonStyle ??
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            border:
-                                Border.all(color: Colors.white, width: 1.5)),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.white, width: 1.5),
+                        ),
                         child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 0, right: 2),
-                                child: Icon(Icons.share_sharp, size: 28),
-                              ),
-                            ]),
-                      ))
-
-              // Padding(
-              //   padding: const EdgeInsets.only(right: 10),
-              //   child: Container(
-              //     width: _size.width / 4,
-              //     alignment: Alignment.centerRight,
-              //     padding: const EdgeInsets.only(right: 0),
-              //     child: Transform.scale(
-              //       scale: 0.9,
-              //       child: StatefulBuilder(
-              //         builder: (_, setState) {
-              //         },
-              //       ),
-              //     ),
-              //   ),
-              // ),
-            ],
-          ),
-        );
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 0, right: 2),
+                              child: Icon(Icons.share_sharp, size: 28),
+                            ),
+                          ],
+                        ),
+                      ),
+                ),
+              ],
+            ));
       },
     );
   }
