@@ -410,20 +410,34 @@ class _MainViewState extends State<MainView> {
                         if (!kIsWeb)
                           Align(
                             alignment: Alignment.bottomCenter,
-                            child: BottomTools(
-                              contentKey: contentKey,
-                              // renderWidget: () => startRecording(
-                              //     controlNotifier: controlNotifier,
-                              //     renderingNotifier: renderingNotifier,
-                              //     saveOnGallery: false),
-                              onDone: (bytes) {
-                                setState(() {
-                                  widget.onDone!(bytes);
-                                });
-                              },
-                              onDoneButtonStyle: widget.onDoneButtonStyle,
-                              editorBackgroundColor:
-                                  widget.editorBackgroundColor, placeButtonWidget: widget.placeButtonWidget, mentionButtonWidget: widget.mentionButtonWidget,
+                            child: Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 0, 20, 40),
+                                child: Center(
+                                  child: BottomTools(
+                                    contentKey: contentKey,
+                                    // renderWidget: () => startRecording(
+                                    //     controlNotifier: controlNotifier,
+                                    //     renderingNotifier: renderingNotifier,
+                                    //     saveOnGallery: false),
+                                    onDone: (bytes) {
+                                      setState(() {
+                                        widget.onDone!(bytes);
+                                      });
+                                    },
+                                    onDoneButtonStyle: widget.onDoneButtonStyle,
+                                    editorBackgroundColor:
+                                        widget.editorBackgroundColor,
+                                    placeButtonWidget: widget.placeButtonWidget,
+                                    mentionButtonWidget:
+                                        widget.mentionButtonWidget,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
 
