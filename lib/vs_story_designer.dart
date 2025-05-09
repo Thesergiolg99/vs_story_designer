@@ -14,6 +14,7 @@ import 'package:vs_story_designer/src/domain/providers/notifiers/text_editing_no
 import 'package:vs_story_designer/src/presentation/main_view/main_view.dart';
 
 export 'package:vs_story_designer/vs_story_designer.dart';
+export 'src/utils.dart';
 
 enum ThemeType { dark, light }
 

@@ -1,0 +1,1 @@
+export 'domain/sevices/save_as_image.dart' show takePicture;
