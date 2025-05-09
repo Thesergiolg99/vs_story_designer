@@ -416,7 +416,7 @@ class _MainViewState extends State<MainView> {
                               right: 0,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    const EdgeInsets.fromLTRB(20, 20, 20, 0),
                                 child: BottomTools(
                                   contentKey: contentKey,
                                   // renderWidget: () => startRecording(
