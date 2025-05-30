@@ -50,7 +50,7 @@ class DraggableWidget extends StatelessWidget {
               constraints: BoxConstraints(
                 minHeight: 50,
                 minWidth: 50,
-                maxWidth: _size.width - 120,
+                maxWidth: _size.width, //- 120,
               ),
               width: draggableWidget.deletePosition ? 100 : null,
               height: draggableWidget.deletePosition ? 100 : null,
