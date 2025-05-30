@@ -58,8 +58,6 @@ class _FileImageBGState extends State<FileImageBG> {
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
     return SizedBox(
-        height: _size.height,
-        width: _size.width,
         child: RepaintBoundary(
             key: paintKey,
             child: Center(
