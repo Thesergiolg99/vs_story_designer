@@ -57,15 +57,16 @@ class _FileImageBGState extends State<FileImageBG> {
   @override
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
-    return FittedBox(
-        fit: BoxFit.cover,
+    return SizedBox(
+        height: _size.height,
+        width: _size.width,
         child: RepaintBoundary(
             key: paintKey,
             child: Center(
                 child: Image.file(
               File(widget.filePath!.path),
               key: imageKey,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
               filterQuality: FilterQuality.high,
             ))));
   }

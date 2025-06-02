@@ -97,8 +97,9 @@ class DraggableWidget extends StatelessWidget {
       /// image [file_image_gb.dart]
       case ItemType.image:
         if (_controlProvider.mediaPath.isNotEmpty) {
-          overlayWidget = FittedBox(
-            fit: BoxFit.cover,
+          overlayWidget = SizedBox(
+            width: double.infinity,
+            height: double.infinity,
             child: FileImageBG(
               filePath: File(_controlProvider
                   .mediaPath), // Make image cover the entire space
