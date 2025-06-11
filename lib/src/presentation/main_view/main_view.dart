@@ -86,8 +86,6 @@ class MainView extends StatefulWidget {
   final Widget placeButtonWidget;
   final Widget mentionButtonWidget;
 
-  final Locale locale;
-
   MainView({
     super.key,
     this.themeType,
@@ -107,7 +105,6 @@ class MainView extends StatefulWidget {
     this.mediaPath,
     required this.placeButtonWidget,
     required this.mentionButtonWidget,
-    required this.locale,
   });
 
   @override

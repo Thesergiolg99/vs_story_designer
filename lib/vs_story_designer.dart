@@ -159,11 +159,8 @@ class VSStoryDesigner extends StatefulWidget {
   final Widget placeButtonWidget;
   final Widget mentionButtonWidget;
 
-  /// current locale for translations
-  final Locale locale;
-
-  const VSStoryDesigner({
-      super.key,
+  const VSStoryDesigner(
+      {super.key,
       this.giphyKey,
       this.themeType,
       required this.onDone,
@@ -181,7 +178,6 @@ class VSStoryDesigner extends StatefulWidget {
       required this.centerText,
       required this.placeButtonWidget,
       required this.mentionButtonWidget,
-      this.locale = const Locale('en'), // Default to English
       });
 
   @override
@@ -238,7 +234,7 @@ class _VSStoryDesignerState extends State<VSStoryDesigner> {
         mediaPath: widget.mediaPath,
         placeButtonWidget: widget.placeButtonWidget,
         mentionButtonWidget: widget.mentionButtonWidget,
-        locale: widget.locale, // Add this line
+        
       ),
     );
   }
