@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vs_story_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
+import 'package:vs_story_designer/src/localization/l10n.dart';
 import 'package:vs_story_designer/src/presentation/widgets/tool_button.dart';
+
 
 class TopTextTools extends StatelessWidget {
   final void Function() onDone;
@@ -155,9 +157,9 @@ class TopTextTools extends StatelessWidget {
 
                           //border: Border.all(color: Colors.white, width: 1.5),
                           borderRadius: BorderRadius.circular(25)),
-                      child: const Text(
-                        'Listo',
-                        style: TextStyle(
+                      child: Text(
+                        VSStoryDesignerLocalizations.of(context).ready,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.w500,

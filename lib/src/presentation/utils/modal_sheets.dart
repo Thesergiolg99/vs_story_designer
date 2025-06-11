@@ -9,6 +9,7 @@ import 'package:vs_story_designer/src/domain/providers/notifiers/control_provide
 import 'package:vs_story_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
 import 'package:vs_story_designer/src/domain/providers/notifiers/painting_notifier.dart';
 import 'package:vs_story_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
+import 'package:vs_story_designer/src/localization/l10n.dart';
 // import 'package:vs_story_designer/src/domain/sevices/save_as_image.dart';
 import 'package:vs_story_designer/src/presentation/utils/Extensions/hexColor.dart';
 // import 'package:vs_story_designer/src/presentation/utils/constants/item_type.dart';
@@ -47,162 +48,131 @@ Future<bool> exitDialog(
     required ThemeType themeType}) async {
   return (await showDialog(
         context: context,
-        // barrierColor:
-        //     themeType == ThemeType.light ? Colors.black38 : Colors.white12,
         barrierDismissible: true,
         builder: (c) => Dialog(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          insetAnimationDuration: const Duration(milliseconds: 300),
-          insetAnimationCurve: Curves.ease,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              alignment: Alignment.center,
-              height: 250,
-              decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: themeType == ThemeType.light
-                      ? Colors.white
-                      : HexColor.fromHex('#262626'),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                        color: themeType == ThemeType.light
-                            ? Colors.black
-                            : Colors.white10,
-                        offset: const Offset(0, 1),
-                        blurRadius: 4),
-                  ]),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    'Discard Edits?',
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        color: themeType == ThemeType.light
-                            ? Colors.black
-                            : Colors.white,
-                        letterSpacing: 0.5),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "If you go back now, you'll lose all the edits you've made.",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                        color: themeType == ThemeType.light
-                            ? Colors.grey
-                            : Colors.white54,
-                        letterSpacing: 0.1),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  Divider(
-                      color: themeType == ThemeType.light
-                          ? Colors.black26
-                          : Colors.white10),
-                  const SizedBox(height: 10),
-
-                  /// discard
-                  AnimatedOnTapButton(
-                    onTap: () async {
-                      _resetDefaults(context: context);
-                      Navigator.of(context).pop(true);
-                    },
-                    child: Row(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 190.0,
+            decoration: BoxDecoration(
+              color: themeType == ThemeType.light ? Colors.white : const Color(0xFF262626),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Flex(
+              direction: Axis.vertical,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Flexible(
+                  child: Container(
+                    height: 80.0,
+                    decoration: const BoxDecoration(),
+                    child: Flex(
+                      direction: Axis.vertical,
+                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Discard',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.redAccent.shade200,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.1),
-                          textAlign: TextAlign.center,
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                            child: Flex(
+                              direction: Axis.horizontal,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    VSStoryDesignerLocalizations.of(context).discardEdits,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: themeType == ThemeType.light ? Colors.black : Colors.white,
+                                      fontSize: 13.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(20.0, 10.0, 20.0, 0.0),
+                            child: Flex(
+                              direction: Axis.horizontal,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    VSStoryDesignerLocalizations.of(context).discardWarning,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: themeType == ThemeType.light ? Colors.grey : Colors.white54,
+                                      fontSize: 11.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  // const SizedBox(
-                  //   height: 18,
-                  //   child: Divider(
-                  //     color: Colors.white10,
-                  //   ),
-                  // ),
-
-                  /// save and exit
-                  // AnimatedOnTapButton(
-                  //   onTap: () async {
-                  //     final _paintingProvider =
-                  //         Provider.of<PaintingNotifier>(context, listen: false);
-                  //     final _widgetProvider =
-                  //         Provider.of<DraggableWidgetNotifier>(context,
-                  //             listen: false);
-                  //     if (_paintingProvider.lines.isNotEmpty ||
-                  //         _widgetProvider.draggableWidget.isNotEmpty) {
-                  //       /// save image
-                  //       var response = await takePicture(
-                  //           contentKey: contentKey,
-                  //           context: context,
-                  //           saveToGallery: true);
-                  //       if (response) {
-                  //         _dispose(
-                  //             context: context, message: 'Successfully saved');
-                  //       } else {
-                  //         _dispose(context: context, message: 'Error');
-                  //       }
-                  //     } else {
-                  //       _dispose(context: context, message: 'Draft Empty');
-                  //     }
-                  //   },
-                  //   child: const Text(
-                  //     'Save Draft',
-                  //     style: TextStyle(
-                  //         fontSize: 16,
-                  //         color: Colors.white,
-                  //         fontWeight: FontWeight.bold,
-                  //         letterSpacing: 0.5),
-                  //     textAlign: TextAlign.center,
-                  //   ),
-                  // ),
-                  const SizedBox(height: 10),
-                  Divider(
-                      color: themeType == ThemeType.light
-                          ? Colors.black26
-                          : Colors.white10),
-                  const SizedBox(height: 10),
-
-                  ///cancel
-                  AnimatedOnTapButton(
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 246, 152, 68),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      child: Text(
+                        VSStoryDesignerLocalizations.of(context).discard,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(20.0, 10.0, 20.0, 20.0),
+                  child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop(false);
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Cancel',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: themeType == ThemeType.light
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.5),
-                          textAlign: TextAlign.center,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        color: themeType == ThemeType.light ? Colors.grey[200] : Colors.grey[800],
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      child: Text(
+                        VSStoryDesignerLocalizations.of(context).cancel,
+                        style: TextStyle(
+                          color: themeType == ThemeType.light ? Colors.black87 : Colors.white,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
