@@ -82,13 +82,24 @@ class BottomTools extends StatelessWidget {
 
                       for (var element in itemNotifier.draggableWidget) {
                         if (element.type == ItemType.gif ||
+                            element.type == ItemType.video ||
                             element.animationType != TextAnimationType.none) {
                           _createVideo = true;
                         }
                       }
                       if (_createVideo) {
                         debugPrint('creating video');
-                        await renderWidget!();
+                        if (renderWidget != null) {
+                          await renderWidget!();
+                        } else {
+                          // If there's no renderWidget provided, directly save the video
+                          for (var element in itemNotifier.draggableWidget) {
+                            if (element.type == ItemType.video) {
+                              onDone(controlNotifier.mediaPath);
+                              return;
+                            }
+                          }
+                        }
                       } else {
                         debugPrint('creating image');
                         await takePicture(

@@ -26,4 +26,8 @@ class EditableItem {
 
   /// Gif
   // GiphyGif gif = GiphyGif(id: '0');
+
+  /// video
+  bool isPlaying = true;
+  Duration currentPosition = Duration.zero;
 }

@@ -150,10 +150,17 @@ class _MainViewState extends State<MainView> {
       _control.themeType = widget.themeType ?? ThemeType.dark;
       if (widget.mediaPath != null) {
         _control.mediaPath = widget.mediaPath!;
+        // Check if the file is a video by its extension
+        bool isVideo = widget.mediaPath!.toLowerCase().endsWith('.mp4') || 
+                      widget.mediaPath!.toLowerCase().endsWith('.mov') ||
+                      widget.mediaPath!.toLowerCase().endsWith('.avi') ||
+                      widget.mediaPath!.toLowerCase().endsWith('.mkv') ||
+                      widget.mediaPath!.toLowerCase().endsWith('.webm');
+        
         _tempItemProvider.draggableWidget.insert(
             0,
             EditableItem()
-              ..type = ItemType.image
+              ..type = isVideo ? ItemType.video : ItemType.image
               ..position = const Offset(0.0, 0));
       }
       if (widget.gradientColors != null) {
@@ -457,7 +464,7 @@ class _MainViewState extends State<MainView> {
                       gridViewController: scrollProvider.gridController,
                       thumbnailQuality: widget.galleryThumbnailQuality,
                       singlePick: true,
-                      onlyImages: true,
+                      onlyImages: false,
                       appBarColor: widget.editorBackgroundColor ?? Colors.black,
                       gridViewPhysics: itemProvider.draggableWidget.isEmpty
                           ? const NeverScrollableScrollPhysics()
@@ -465,10 +472,11 @@ class _MainViewState extends State<MainView> {
                       pathList: (path) {
                         controlNotifier.mediaPath = path[0].path!;
                         if (controlNotifier.mediaPath.isNotEmpty) {
+                          bool isVideo = path[0].type == "video";
                           itemProvider.draggableWidget.insert(
                               0,
                               EditableItem()
-                                ..type = ItemType.image
+                                ..type = isVideo ? ItemType.video : ItemType.image
                                 ..position = const Offset(0.0, 0));
                         }
                         scrollProvider.pageController.animateToPage(0,

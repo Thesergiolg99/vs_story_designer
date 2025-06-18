@@ -7,6 +7,7 @@ import 'package:align_positioned/align_positioned.dart';
 import 'package:flutter/material.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 import 'package:vs_story_designer/src/domain/models/editable_items.dart';
 import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
 import 'package:vs_story_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
@@ -138,7 +139,14 @@ class DraggableWidget extends StatelessWidget {
         break;
 
       case ItemType.video:
-        overlayWidget = const Center();
+        if (_controlProvider.mediaPath.isNotEmpty) {
+          overlayWidget = VideoItem(
+            videoPath: _controlProvider.mediaPath,
+          );
+        } else {
+          overlayWidget = Container();
+        }
+        break;
     }
 
     /// set widget data position on main screen
@@ -312,5 +320,94 @@ class DraggableWidget extends StatelessWidget {
 
     /// create new text item
     controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
+  }
+}
+
+class VideoItem extends StatefulWidget {
+  final String videoPath;
+
+  const VideoItem({super.key, required this.videoPath});
+
+  @override
+  State<VideoItem> createState() => _VideoItemState();
+}
+
+class _VideoItemState extends State<VideoItem> {
+  late VideoPlayerController _controller;
+  bool _isInitialized = false;
+  bool _showControls = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.file(File(widget.videoPath))
+      ..initialize().then((_) {
+        setState(() {
+          _isInitialized = true;
+          _controller.setLooping(true);
+          _controller.play();
+        });
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var _size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _showControls = !_showControls;
+          if (_controller.value.isPlaying) {
+            _controller.pause();
+          } else {
+            _controller.play();
+          }
+        });
+      },
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: _isInitialized
+                ? AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  )
+                : Container(
+                    width: _size.width,
+                    height: _size.height,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.7),
+                    ),
+                    child: const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+          ),
+          if (_showControls)
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.4),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                color: Colors.white,
+                size: 50,
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }

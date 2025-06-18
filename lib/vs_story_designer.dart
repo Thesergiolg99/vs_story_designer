@@ -136,6 +136,9 @@ class VSStoryDesigner extends StatefulWidget {
 
   /// on done
   final Function(dynamic)? onDone;
+  
+  /// flag to enable video support (true by default)
+  final bool enableVideo;
 
   /// on done button Text
   final Widget? onDoneButtonStyle;
@@ -164,6 +167,7 @@ class VSStoryDesigner extends StatefulWidget {
       this.giphyKey,
       this.themeType,
       required this.onDone,
+      this.enableVideo = true,
       this.middleBottomWidget,
       this.colorList,
       this.gradientColors,
