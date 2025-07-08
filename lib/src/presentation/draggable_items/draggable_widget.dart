@@ -18,8 +18,6 @@ import 'package:vs_story_designer/src/presentation/utils/constants/item_type.dar
 // import 'package:vs_story_designer/src/presentation/utils/constants/text_animation_type.dart';
 import 'package:vs_story_designer/src/presentation/widgets/animated_onTap_button.dart';
 import 'package:vs_story_designer/src/presentation/widgets/file_image_bg.dart';
-import 'package:vs_story_designer/src/utils/cache_manager.dart';
-import 'package:vs_story_designer/src/utils/error_handler.dart';
 
 class DraggableWidget extends StatelessWidget {
   final EditableItem draggableWidget;
@@ -100,28 +98,17 @@ class DraggableWidget extends StatelessWidget {
       /// image [file_image_gb.dart]
       case ItemType.image:
         if (_controlProvider.mediaPath.isNotEmpty) {
-          overlayWidget = FutureBuilder<File>(
-            future: CacheManager.cacheFile(File(_controlProvider.mediaPath)),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError || !snapshot.hasData) {
-                return const Center(
-                    child: Icon(Icons.error_outline, color: Colors.white, size: 40));
-              }
-              return SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: FileImageBG(
-                  filePath: snapshot.data!,
-                  generatedGradient: (color1, color2) {
-                    _colorProvider.color1 = color1;
-                    _colorProvider.color2 = color2;
-                  },
-                ),
-              );
-            },
+          overlayWidget = SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: FileImageBG(
+              filePath: File(_controlProvider
+                  .mediaPath), // Make image cover the entire space
+              generatedGradient: (color1, color2) {
+                _colorProvider.color1 = color1;
+                _colorProvider.color2 = color2;
+              },
+            ),
           );
         } else {
           overlayWidget = Container();
@@ -349,32 +336,18 @@ class _VideoItemState extends State<VideoItem> {
   late VideoPlayerController _controller;
   bool _isInitialized = false;
   bool _showControls = false;
-  bool _isError = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeVideo();
-  }
-
-  Future<void> _initializeVideo() async {
-    try {
-      _controller = VideoPlayerController.file(File(widget.videoPath));
-      await _controller.initialize();
-
-      if (mounted) {
+    _controller = VideoPlayerController.file(File(widget.videoPath))
+      ..initialize().then((_) {
         setState(() {
           _isInitialized = true;
           _controller.setLooping(true);
           _controller.play();
         });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isError = true);
-        ErrorHandler.handleError(context, e);
-      }
-    }
+      });
   }
 
   @override
@@ -386,22 +359,8 @@ class _VideoItemState extends State<VideoItem> {
   @override
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
-
-    if (_isError) {
-      return Container(
-        width: _size.width,
-        height: _size.height,
-        color: Colors.black,
-        child: const Center(
-          child: Icon(Icons.error_outline, color: Colors.white, size: 40),
-        ),
-      );
-    }
-
     return GestureDetector(
       onTap: () {
-        if (!_isInitialized) return;
-
         setState(() {
           _showControls = !_showControls;
           if (_controller.value.isPlaying) {
@@ -414,45 +373,37 @@ class _VideoItemState extends State<VideoItem> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          if (!_isInitialized)
-            Container(
-              width: _size.width,
-              height: _size.height,
-              color: Colors.black,
-              child: const Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              ),
-            )
-          else
-            SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              child: AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              ),
-            ),
-
-          if (_showControls && _isInitialized)
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: _isInitialized
+                ? AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  )
+                : Container(
+                    width: _size.width,
+                    height: _size.height,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.7),
+                    ),
+                    child: const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+          ),
+          if (_showControls)
             Container(
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.4),
+                shape: BoxShape.circle,
               ),
-              child: IconButton(
-                icon: Icon(
-                  _controller.value.isPlaying
-                      ? Icons.pause
-                      : Icons.play_arrow,
-                  color: Colors.white,
-                  size: 50,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _controller.value.isPlaying
-                        ? _controller.pause()
-                        : _controller.play();
-                  });
-                },
+              child: Icon(
+                _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                color: Colors.white,
+                size: 50,
               ),
             ),
         ],
