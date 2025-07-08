@@ -22,88 +22,86 @@ class Painting extends StatefulWidget {
 }
 
 class _PaintingState extends State<Painting> {
+  StreamController<List<PaintingModel>>? _linesStreamController;
+  StreamController<PaintingModel>? _currentLineStreamController;
+
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<PaintingNotifier>(context, listen: false)
-        ..linesStreamController =
-            StreamController<List<PaintingModel>>.broadcast()
-        ..currentLineStreamController =
-            StreamController<PaintingModel>.broadcast();
-    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final paintingNotifier = Provider.of<PaintingNotifier>(context, listen: false);
+      _linesStreamController = StreamController<List<PaintingModel>>.broadcast();
+      _currentLineStreamController = StreamController<PaintingModel>.broadcast();
+      paintingNotifier
+        ..linesStreamController = _linesStreamController!
+        ..currentLineStreamController = _currentLineStreamController!;
+    });
   }
 
   @override
   void dispose() {
+    _linesStreamController?.close();
+    _currentLineStreamController?.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    /// instance of painting model
     PaintingModel? line;
-
-    /// screen size
-    var screenSize = MediaQueryData.fromView(WidgetsBinding.instance.window);
+    final screenSize = MediaQueryData.fromView(WidgetsBinding.instance.window);
+    final maxHeight = Platform.isIOS
+        ? (screenSize.size.height - 132) - screenSize.viewPadding.top
+        : screenSize.size.height - 132;
 
     /// on gestures start
     void _onPanStart(DragStartDetails details,
         PaintingNotifier paintingNotifier, ControlNotifier controlProvider) {
+      if (!mounted) return;
+      
       final box = context.findRenderObject() as RenderBox;
-      final offset = box.globalToLocal(details.globalPosition);
-      final point = PointVector(offset.dx, offset.dy);
-      final points = [point];
+      final point = box.globalToLocal(details.globalPosition);
+      if (point.dy < 4 || point.dy > maxHeight) return;
 
-      /// validate allow pan area
-      if (point.y >= 4 &&
-          point.y <=
-              (Platform.isIOS
-                  ? (screenSize.size.height - 132) - screenSize.viewPadding.top
-                  : screenSize.size.height - 132)) {
-        line = PaintingModel(
-            points,
-            paintingNotifier.lineWidth,
-            1,
-            1,
-            false,
-            controlProvider.colorList![paintingNotifier.lineColor],
-            1,
-            true,
-            paintingNotifier.paintingType);
-      }
+      line = PaintingModel(
+        [PointVector(point.dx, point.dy)],
+        paintingNotifier.lineWidth,
+        1,
+        1,
+        false,
+        controlProvider.colorList![paintingNotifier.lineColor],
+        1,
+        true,
+        paintingNotifier.paintingType);
+      paintingNotifier.currentLineStreamController.add(line!);
     }
 
     /// on gestures update
     void _onPanUpdate(DragUpdateDetails details,
         PaintingNotifier paintingNotifier, ControlNotifier controlNotifier) {
-      final box = context.findRenderObject() as RenderBox;
-      final offset = box.globalToLocal(details.globalPosition);
-      final point = PointVector(offset.dx, offset.dy);
-      final points = [...line!.points, point];
+      if (!mounted || line == null) return;
 
-      /// validate allow pan area
-      if (point.y >= 6 &&
-          point.y <=
-              (Platform.isIOS
-                  ? (screenSize.size.height - 132) - screenSize.viewPadding.top
-                  : screenSize.size.height - 132)) {
-        line = PaintingModel(
-            points,
-            paintingNotifier.lineWidth,
-            1,
-            1,
-            false,
-            controlNotifier.colorList![paintingNotifier.lineColor],
-            1,
-            true,
-            paintingNotifier.paintingType);
-        paintingNotifier.currentLineStreamController.add(line!);
-      }
+      final box = context.findRenderObject() as RenderBox;
+      final point = box.globalToLocal(details.globalPosition);
+      if (point.dy < 6 || point.dy > maxHeight) return;
+
+      final points = [...line!.points, PointVector(point.dx, point.dy)];
+      line = PaintingModel(
+        points,
+        paintingNotifier.lineWidth,
+        1,
+        1,
+        false,
+        controlNotifier.colorList![paintingNotifier.lineColor],
+        1,
+        true,
+        paintingNotifier.paintingType);
+      paintingNotifier.currentLineStreamController.add(line!);
     }
 
     /// on gestures end
     void _onPanEnd(DragEndDetails details, PaintingNotifier paintingNotifier) {
+      if (!mounted || line == null) return;
+
       paintingNotifier.lines = List.from(paintingNotifier.lines)..add(line!);
       line = null;
       paintingNotifier.linesStreamController.add(paintingNotifier.lines);

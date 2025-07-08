@@ -111,7 +111,7 @@ class MainView extends StatefulWidget {
   _MainViewState createState() => _MainViewState();
 }
 
-class _MainViewState extends State<MainView> {
+class _MainViewState extends State<MainView> with WidgetsBindingObserver {
   /// content container key
   final GlobalKey contentKey = GlobalKey();
 
@@ -129,56 +129,72 @@ class _MainViewState extends State<MainView> {
   bool _inAction = false;
 
   /// screen size
-  final _screenSize = MediaQueryData.fromView(WidgetsBinding.instance.window);
+  late final _screenSize = MediaQueryData.fromView(WidgetsBinding.instance.window);
 
-  /// recorder controller
-  // final WidgetRecorderController _recorderController =
-  //     WidgetRecorderController();
+  // Cache commonly used providers
+  late final _controlNotifier = Provider.of<ControlNotifier>(context, listen: false);
+  late final _itemProvider = Provider.of<DraggableWidgetNotifier>(context, listen: false);
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      var _control = Provider.of<ControlNotifier>(context, listen: false);
-      var _tempItemProvider =
-          Provider.of<DraggableWidgetNotifier>(context, listen: false);
-
-      /// initialize control variable provider
-      _control.giphyKey = widget.giphyKey;
-      _control.folderName = widget.fileName ?? "VS_Story_Designer";
-      _control.middleBottomWidget = widget.middleBottomWidget;
-      _control.isCustomFontList = widget.isCustomFontList ?? false;
-      _control.themeType = widget.themeType ?? ThemeType.dark;
-      if (widget.mediaPath != null) {
-        _control.mediaPath = widget.mediaPath!;
-        // Check if the file is a video by its extension
-        bool isVideo = widget.mediaPath!.toLowerCase().endsWith('.mp4') || 
-                      widget.mediaPath!.toLowerCase().endsWith('.mov') ||
-                      widget.mediaPath!.toLowerCase().endsWith('.avi') ||
-                      widget.mediaPath!.toLowerCase().endsWith('.mkv') ||
-                      widget.mediaPath!.toLowerCase().endsWith('.webm');
-        
-        _tempItemProvider.draggableWidget.insert(
-            0,
-            EditableItem()
-              ..type = isVideo ? ItemType.video : ItemType.image
-              ..position = const Offset(0.0, 0));
-      }
-      if (widget.gradientColors != null) {
-        _control.gradientColors = widget.gradientColors;
-      }
-      if (widget.fontFamilyList != null) {
-        _control.fontList = widget.fontFamilyList;
-      }
-      if (widget.colorList != null) {
-        _control.colorList = widget.colorList;
-      }
-    });
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _initializeEditor();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _cleanup();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      _cleanup();
+    }
+  }
+
+  void _cleanup() {
+    // Clear any cached resources
+    _activeItem = null;
+    _isDeletePosition = false;
+    _inAction = false;
+  }
+
+  void _initializeEditor() {
+    _controlNotifier
+      ..giphyKey = widget.giphyKey
+      ..folderName = widget.fileName ?? "VS_Story_Designer"
+      ..middleBottomWidget = widget.middleBottomWidget
+      ..isCustomFontList = widget.isCustomFontList ?? false
+      ..themeType = widget.themeType ?? ThemeType.dark;
+
+    if (widget.mediaPath != null) {
+      _controlNotifier.mediaPath = widget.mediaPath!;
+      final isVideo = _isVideoFile(widget.mediaPath!);
+      _itemProvider.draggableWidget.insert(
+          0,
+          EditableItem()
+            ..type = isVideo ? ItemType.video : ItemType.image
+            ..position = const Offset(0.0, 0));
+    }
+
+    if (widget.gradientColors != null) {
+      _controlNotifier.gradientColors = widget.gradientColors;
+    }
+    if (widget.fontFamilyList != null) {
+      _controlNotifier.fontList = widget.fontFamilyList;
+    }
+    if (widget.colorList != null) {
+      _controlNotifier.colorList = widget.colorList;
+    }
+  }
+
+  bool _isVideoFile(String path) {
+    final videoExtensions = {'.mp4', '.mov', '.avi', '.mkv', '.webm'};
+    return videoExtensions.any((ext) => path.toLowerCase().endsWith(ext));
   }
 
   @override
