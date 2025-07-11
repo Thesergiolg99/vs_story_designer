@@ -171,9 +171,11 @@ class _TopToolsState extends State<TopTools> {
                         for (var element in itemNotifier.draggableWidget) {
                           if (element.type == ItemType.gif ||
                               element.animationType != TextAnimationType.none) {
-                            setState(() {
-                              _createVideo = true;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                _createVideo = true;
+                              });
+                            }
                           }
                         }
                         if (_createVideo) {
@@ -188,17 +190,21 @@ class _TopToolsState extends State<TopTools> {
                               fileName: controlNotifier.folderName);
                           if (response) {
                             showToast('Successfully saved');
-                          } else {}
+                          } else {
+                            showToast('Failed to save image');
+                          }
                         }
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context, rootNavigator: true).pop();
+                        if (mounted) {
+                          Navigator.of(context, rootNavigator: true).pop();
+                        }
                       } else {
                         showToast('Design something to save image');
                       }
-
-                      setState(() {
-                        _createVideo = false;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          _createVideo = false;
+                        });
+                      }
                     },
                     child: const ImageIcon(
                       AssetImage('assets/icons/download.png',
